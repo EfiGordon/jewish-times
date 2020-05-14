@@ -1,9 +1,8 @@
 import HomeLayout from '../components/layout'
 import styles from './country.module.css';
 import Link from 'next/link'
-import { Row, Col, Typography } from 'antd';
+import { Row, Col, Typography, PageHeader } from 'antd';
 const { Title } = Typography;
-import MyPageHeader from '../components/MyPageHeader';
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
 import { getCitiesByCountryCode } from '../lib/data/cities';
@@ -45,12 +44,6 @@ function Country() {
                 flagPath: flagPath,
                 cities: cities
             });
-            setPageH(
-                <MyPageHeader
-                    flagPath={flagPath}
-                    countryName={countryName}
-                    subTitle="Please select your nearest city"
-                    countryCode={countryCode} />)
         }
 
     }, [countryName, cities, flagPath, countryCode])
@@ -64,7 +57,25 @@ function Country() {
     return (
         <HomeLayout className={styles.Card} home={false} titleName={countryName}>
             {isLoading && <h3>LOADING...</h3>}
-            {pageH}
+            <PageHeader
+                onBack={() => {
+                    if (router.asPath.includes('/city')) {
+                        router.push('/country', '/country?countryCode=' + countryCode);
+                    } else {
+                        router.push('/');
+                    }
+                }}
+                title={countryName + " Jewish times"}
+                subTitle={"Please select your nearest city"}
+                avatar={{
+                    src: flagPath,
+                    alt: "Please select your nearest city",
+                    onError: () => {
+                        console.log('avatar error - not the movie');
+                    }
+                }}
+
+            />
             <Row gutter={[16, 16]}>
                 {
                     cities.map(city => {
