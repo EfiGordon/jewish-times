@@ -1,8 +1,7 @@
 import HomeLayout from '../components/layout'
-import axios from 'axios';
 import styles from './country.module.css';
 import Link from 'next/link'
-import { Row, Col, PageHeader, Typography } from 'antd';
+import { Row, Col, Typography } from 'antd';
 const { Title } = Typography;
 import MyPageHeader from '../components/MyPageHeader';
 import { useRouter } from 'next/router'
