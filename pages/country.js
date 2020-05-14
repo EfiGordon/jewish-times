@@ -16,7 +16,7 @@ function Country() {
     const dateString = new Date().toISOString().slice(0, 10);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-
+    const [pageH, setPageH] = useState();
 
     useEffect(() => {
         setCountryCode(router.asPath.split('=')[1]);
@@ -37,6 +37,23 @@ function Country() {
         setFlagPath(`/images/country-flags/${countryName.split(' ').join('-').toLowerCase()}.svg`)
     }, [countryName])
 
+    useEffect(() => {
+        if (countryName && countryCode && flagPath && cities) {
+            console.log({
+                countryName: countryName,
+                countryCode: countryCode,
+                flagPath: flagPath,
+                cities: cities
+            });
+            setPageH(
+                <MyPageHeader
+                    flagPath={flagPath}
+                    countryName={countryName}
+                    subTitle="Please select your nearest city"
+                    countryCode={countryCode} />)
+        }
+
+    }, [countryName, cities, flagPath, countryCode])
     const style = {
         background: '#fafafa',
         padding: '8px 0',
@@ -47,11 +64,7 @@ function Country() {
     return (
         <HomeLayout className={styles.Card} home={false} titleName={countryName}>
             {isLoading && <h3>LOADING...</h3>}
-            <MyPageHeader
-                flagPath={flagPath}
-                countryName={countryName}
-                subTitle="Please select your nearest city"
-                countryCode={countryCode} />
+            {pageH}
             <Row gutter={[16, 16]}>
                 {
                     cities.map(city => {
