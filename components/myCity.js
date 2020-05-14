@@ -1,11 +1,9 @@
 
-import { DatePicker } from 'antd';
+import { DatePicker, PageHeader } from 'antd';
 import MyTable from './myTable';
 import { useState } from 'react';
 
 import { useRouter } from 'next/router'
-import MyPageHeader from './MyPageHeader';
-import Parasha from './parasha';
 
 const MyCity = (props) => {
     const [date, setDate] = useState('');
@@ -37,11 +35,25 @@ const MyCity = (props) => {
 
     return (
         <div>
-            <MyPageHeader
-                flagPath={props.flagPath}
-                countryCode={props.countryCode}
-                subTitle={props.cityName}
-                countryName={props.countryName} />
+            <PageHeader
+                onBack={() => {
+                    if (router.asPath.includes('/city')) {
+                        router.push('/country', '/country?countryCode=' + props.countryCode);
+                    } else {
+                        router.push('/');
+                    }
+                }}
+                title={props.countryName + " Jewish times"}
+                subTitle={"Please select your nearest city"}
+                avatar={{
+                    src: props.flagPath,
+                    alt: "Please select your nearest city",
+                    onError: () => {
+                        console.log('avatar error - not the movie');
+                    }
+                }}
+
+            />
 
             <style jsx>
                 {`  
