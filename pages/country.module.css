@@ -1,0 +1,12 @@
+.Card {
+    background: #ececec;
+    padding: 30px;
+  }
+
+  .Table {
+    margin-top: 8px;
+  }
+
+  .Responsive {
+    display: 'flex';
+  }
