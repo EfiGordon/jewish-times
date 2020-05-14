@@ -1,9 +1,6 @@
 import { Select } from 'antd';
-import axios from 'axios';
-
-
 const { Option } = Select;
-
+import { cities } from '../lib/data/cities';
 let timeout;
 let currentValue;
 
@@ -16,28 +13,17 @@ function fetch(value, callback) {
     currentValue = value;
 
     function fake() {
-        const str = querystring.encode({
-            code: 'utf-8',
-            q: value,
-        });
-
-        axios.get(`http://localhost:3000/api/getCities`)
-            .then(response => {
-                return response.data.cities;
+        let data = cities.filter(item => {
+            return item.toLowerCase().includes(currentValue.toLowerCase());
+        })
+        const result = [];
+        data.forEach(item => {
+            result.push({
+                value: item,
+                text: item
             })
-            .then(array => {
-                let data = array.filter(item => {
-                    return item.toLowerCase().includes(currentValue.toLowerCase());
-                })
-                const result = [];
-                data.forEach(item => {
-                    result.push({
-                        value: item,
-                        text: item
-                    })
-                })
-                callback(result);
-            });
+        })
+        callback(result);
     }
 
     timeout = setTimeout(fake, 300);
@@ -86,4 +72,3 @@ export class CitySearchSelect extends React.Component {
         );
     }
 }
-
