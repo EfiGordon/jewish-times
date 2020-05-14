@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import HomeLayout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import axios from 'axios';
 import CountriesList from '../components/countriesList';
 import { Typography } from 'antd';
 const { Title, Paragraph } = Typography;
@@ -25,20 +24,3 @@ export default function Home() {
     </HomeLayout>
   )
 }
-
-
-// export async function getStaticProps() {
-//   let allCountriesData;
-//   try {
-//     allCountriesData = await axios.get(process.env.BASE_URL + '/api/getCountries');
-//     allCountriesData = allCountriesData.data;
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-//   return {
-//     props: {
-//       allCountriesData
-//     }
-//   }
-// }
