@@ -15,7 +15,6 @@ function Country() {
     const dateString = new Date().toISOString().slice(0, 10);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    const [pageH, setPageH] = useState();
 
     useEffect(() => {
         setCountryCode(router.asPath.split('=')[1]);
@@ -83,7 +82,7 @@ function Country() {
                             <Col span={12} key={city}>
                                 <div style={style}>
                                     <Title level={3}>
-                                        <Link href={`/city/${countryCode}-${city}-on-${dateString}`}>
+                                        <Link href={`/city/${city}-on-${dateString}`}>
                                             <a>
                                                 {city}
                                             </a>
