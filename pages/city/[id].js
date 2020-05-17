@@ -1,14 +1,16 @@
 
 import { getCitiesPath } from '../../lib/data/cities';
 import HomeLayout from '../../components/layout'
-import axios from 'axios';
 import styles from './[id].module.css';
 import MyCity from '../../components/myCity';
 import { addFetchedDataToTable } from '../../lib/addFetchedDataToTable';
 import { getFlagPathByCountryCode } from '../../lib/utils';
+const axios = require('axios');
 
-
-export default function City({ tableData, countryName, flagPath, cityName, countryCode }) {
+export default function City({ tableData, countryName, flagPath, cityName, countryCode, error }) {
+    if (error) {
+        return (<p>SOME ERROR...</p>)
+    }
     return (
         <HomeLayout className={styles.Card} home={false} titleName='Temp Title Name'>
             <MyCity countryCode={countryCode} tableData={tableData} countryName={countryName} flagPath={flagPath} cityName={cityName} date={[new Date().getFullYear(), new Date().getMonth(), new Date().getDate()].join('-')} />
@@ -24,67 +26,35 @@ export async function getStaticPaths() {
     }
 }
 
-const connect = async (params, city) => {
-    console.log('b')
-    return new Promise((resolve, reject) => {
-        console.log('c')
-        const MongoClient = require('mongodb').MongoClient;
-        const mongo_url = process.env.MONGO_URL;
-        const dbName = 'test';
-
-        const client = new MongoClient(mongo_url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });// Create a new MongoClient
-        console.log('d')
-        client.connect(async (err) => {
-            console.log('e')
-            console.log("Connected successfully to mongo server");
-            const db = client.db(dbName);
-            const collection = db.collection('cities'); // Get the documents collection
-
-            collection.findOne({
-                customTitle: params.id
-            })
-                .then((res) => {
-                    if (res) {
-                        let tableData = addFetchedDataToTable(res);
-                        let countryName = res.location.country;
-                        let countryCode = city.split('-')[0];
-                        let flagPath = getFlagPathByCountryCode(countryCode);
-                        let cityName = res.location.city;
-
-                        resolve({
-                            tableData: tableData,
-                            countryName: countryName,
-                            flagPath: flagPath,
-                            cityName: cityName,
-                            countryCode: countryCode
-                        });
-
-                    } else {
-                        throw new Error('No such documemt at collection :: ' + params.id)
-                    }
-
-
-                })
-                .catch(err => {
-                    console.log({
-                        err: err
-                    })
-                })
-        });
-    })
-
-}
-
-
 export async function getStaticProps({ params }) {
-    const [city, date] = params.id.split('-on-');
-    console.log('a')
-    const props = await connect(params, city);
+
+    let tableData, countryName, flagPath, cityName, countryCode;
+    const res = await axios.get(encodeURI(process.env.FETCH_CITIES_API + '?customTitle=' + params.id));
+    console.log(res);
+    if (res.data.res.length === 0) {
+        return {
+            props: {
+                error: 'yes'
+            }
+        }
+        throw new Error('some fetching error');
+    }
+
+    countryName = res.data.res[0].location.country;
+    cityName = res.data.res[0].location.city;
+    countryCode = params.id.split('-')[0];
+    flagPath = getFlagPathByCountryCode(countryCode);
+    tableData = addFetchedDataToTable(res.data.res[0]);
+
+
     return {
-        props
+        props: {
+            countryName,
+            cityName,
+            countryCode,
+            flagPath,
+            tableData
+        }
     }
 
 }
