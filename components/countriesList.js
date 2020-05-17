@@ -8,7 +8,7 @@ export default function (props) {
     props.countries.forEach((country, i) => {
         data.push({
             key: i,
-            country: { name: country.name, id: country.code, path: getFlagPathByCountryName(country.name) },
+            country: { name: country.countryName, id: country.countryCode, path: getFlagPathByCountryName(country.countryName) },
         })
     })
     const columns = [

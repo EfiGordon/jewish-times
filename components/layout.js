@@ -44,9 +44,12 @@ export default function HomeLayout({ children, home, titleName }) {
           </Title>
                 </div>
 
-                {<CitySearchSelect style={{ width: 200 }} onSelectCity={(value) => {
-                    router.push('/city/' + value + '-on-' + new Date().toISOString().slice(0, 10));
-                }} />}
+                {
+                    <span title="You can type here a city name">
+                        <CitySearchSelect style={{ width: 200 }} onSelectCity={(value) => {
+                            router.push('/city/' + value + '-on-' + new Date().toISOString().slice(0, 10));
+                        }} />
+                    </span>}
             </header>
             <main>{children}</main>
             {!home && (

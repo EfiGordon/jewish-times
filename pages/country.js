@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
 import { getCitiesByCountryCode } from '../lib/data/cities';
 import { getCountryNameByCountryCode } from '../lib/data/countries';
+import { getFlagPathByCountryCode } from '../lib/utils';
 function Country() {
     const [countryCode, setCountryCode] = useState();
     const [countryName, setCountryName] = useState();
@@ -23,6 +24,7 @@ function Country() {
     useEffect(() => {
         if (!countryCode) return;
         setCities(getCitiesByCountryCode(countryCode))
+        setFlagPath(getFlagPathByCountryCode(countryCode))
 
     }, [countryCode])
 
@@ -30,22 +32,7 @@ function Country() {
         if (countryCode) setCountryName(getCountryNameByCountryCode(countryCode))
     }, [cities])
 
-    useEffect(() => {
-        if (!countryName) return;
-        setFlagPath(`/images/country-flags/${countryName.split(' ').join('-').toLowerCase()}.svg`)
-    }, [countryName])
 
-    useEffect(() => {
-        if (countryName && countryCode && flagPath && cities) {
-            console.log({
-                countryName: countryName,
-                countryCode: countryCode,
-                flagPath: flagPath,
-                cities: cities
-            });
-        }
-
-    }, [countryName, cities, flagPath, countryCode])
     const style = {
         background: '#fafafa',
         padding: '8px 0',
