@@ -30,7 +30,6 @@ export async function getStaticProps({ params }) {
 
     let tableData, countryName, flagPath, cityName, countryCode;
     const res = await axios.get(encodeURI(process.env.FETCH_CITIES_API + '?customTitle=' + params.id));
-    console.log(res);
     if (res.data.res.length === 0) {
         return {
             props: {
