@@ -7,15 +7,16 @@ import { addFetchedDataToTable } from '../../lib/addFetchedDataToTable';
 import { getFlagPathByCountryCode } from '../../lib/utils';
 import Head from 'next/head'
 const axios = require('axios');
+const { format } = require('date-fns');
 
-export default function City({ tableData, countryName, flagPath, cityName, countryCode, error }) {
+export default function City({ tableData, countryName, flagPath, cityName, countryCode, error, date }) {
     if (error) {
         return (<p>SOME ERROR...</p>)
     }
     return (
-        <HomeLayout className={styles.Card} home={false}>
+        <HomeLayout className={styles.Card} home={false} siteTitle={countryName}>
             <Head>
-                <title>{`${cityName} Jewish Times`}</title>
+                <title>{`${cityName} Jewish Times ${date}`}</title>
             </Head>
             <MyCity countryCode={countryCode} tableData={tableData} countryName={countryName} flagPath={flagPath} cityName={cityName} date={[new Date().getFullYear(), new Date().getMonth(), new Date().getDate()].join('-')} />
         </HomeLayout >
@@ -31,11 +32,12 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-    let tableData, countryName, flagPath, cityName, countryCode;
+    let tableData, countryName, flagPath, cityName, countryCode, date;
+    const splitedParams = params.id.split('-');
 
     const res = await axios.get(encodeURI(process.env.FETCH_CITIES_API + '?customTitle=' + params.id));
 
-    if (res.data.res.length === 0 || res.data.error) {
+    if (res.data.res.length === 0 || res.data.error || res.data.res.error) {
         return {
             props: {
                 error: 'yes'
@@ -46,7 +48,9 @@ export async function getStaticProps({ params }) {
 
     countryName = res.data.res[0].location.country;
     cityName = res.data.res[0].location.city;
-    countryCode = params.id.split('-')[0];
+    countryCode = splitedParams[0];
+    date = splitedParams.slice(splitedParams.length - 3).join('-');
+    date = format(new Date(date), 'do MMM R');
     flagPath = getFlagPathByCountryCode(countryCode);
     tableData = addFetchedDataToTable(res.data.res[0]);
 
@@ -57,7 +61,8 @@ export async function getStaticProps({ params }) {
             cityName,
             countryCode,
             flagPath,
-            tableData
+            tableData,
+            date
         }
     }
 

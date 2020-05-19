@@ -47,7 +47,7 @@ const MyCity = (props) => {
                 subTitle={"Please select your nearest city"}
                 avatar={{
                     src: props.flagPath,
-                    alt: "Please select your nearest city",
+                    alt: `${props.countryName} Flag`,
                     onError: () => {
                         console.log('avatar error - not the movie');
                     }

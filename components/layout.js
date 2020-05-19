@@ -1,17 +1,20 @@
 import Head from 'next/head'
-import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
-import { Input, Typography } from 'antd';
-import { CitySearchSelect } from './mySearch';
 import { useRouter } from 'next/router'
-import MyFooter from './myFooter';
+
+import utilStyles from '../styles/utils.module.css'
+import styles from './layout.module.css'
+
+import { Input, Typography } from 'antd';
 const { Title } = Typography;
-const { Search } = Input;
 
-export const siteTitle = 'Zmanim - Jewish Holiday Times'
 
-export default function HomeLayout({ children, home }) {
+import { CitySearchSelect } from './mySearch';
+import MyFooter from './myFooter';
+
+export const siteTitle = 'Zmanim - Jewish Holiday And Shabbat Times'
+
+export default function HomeLayout({ children, home, siteTitle }) {
     const router = useRouter()
     const logoPath = `/images/logo.svg`;
     return (
