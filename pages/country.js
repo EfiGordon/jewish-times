@@ -1,6 +1,7 @@
 import HomeLayout from '../components/layout'
 import styles from './country.module.css';
 import Link from 'next/link'
+import Head from 'next/head'
 import { Row, Col, Typography, PageHeader } from 'antd';
 const { Title } = Typography;
 import { useRouter } from 'next/router'
@@ -42,6 +43,9 @@ function Country() {
 
     return (
         <HomeLayout className={styles.Card} home={false} titleName={countryName}>
+            <Head>
+                <title>{`${countryName} Jewish Times`}</title>
+            </Head>
             {isLoading && <h3>LOADING...</h3>}
             <PageHeader
                 onBack={() => {

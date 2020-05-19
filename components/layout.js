@@ -11,7 +11,7 @@ const { Search } = Input;
 
 export const siteTitle = 'Zmanim - Jewish Holiday Times'
 
-export default function HomeLayout({ children, home, titleName }) {
+export default function HomeLayout({ children, home }) {
     const router = useRouter()
     const logoPath = `/images/logo.svg`;
     return (
