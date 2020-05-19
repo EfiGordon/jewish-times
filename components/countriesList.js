@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
-import { getFlagPathByCountryName } from '../lib/utils';
+import { getFlagPathByCountryCode } from '../lib/utils';
 import Link from 'next/link';
 
 export default function (props) {
