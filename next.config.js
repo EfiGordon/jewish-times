@@ -7,12 +7,12 @@ module.exports = {
         startDate: '2020-05-20',
         endDate: '2020-05-22',
     },
-    webpackDevMiddleware: config => {
-        config.watchOptions = {
-            poll: 1000,
-            aggregateTimeout: 300,
-        }
+    // webpackDevMiddleware: config => {
+    //     config.watchOptions = {
+    //         poll: 1000,
+    //         aggregateTimeout: 300,
+    //     }
 
-        return config
-    },
+    //     return config
+    // },
 }
