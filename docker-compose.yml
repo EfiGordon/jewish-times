@@ -1,0 +1,16 @@
+#https://dev.to/kumar_abhirup/next-js-docker-made-easy-2bok
+version: "3.8"
+
+services:
+  zmanim-nextjs-app:
+    ports:
+      - 3000:3000
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    env_file:
+      - .env

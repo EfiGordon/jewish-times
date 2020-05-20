@@ -1,12 +1,21 @@
 FROM node:13-alpine
+
+ENV PORT 3000
+
 # Create app directory
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
 # Installing dependencies
-COPY package* ./
-RUN npm install --production
+COPY package*.json /usr/src/app/
+RUN npm install
+
 # Copying source files
-COPY . .
+COPY . /usr/src/app
+
 # Building app
-RUN npm run build
+#RUN npm run build
 EXPOSE 3000
-CMD ["npm", "run start"]
+
+# Running the app - change this to CMD "npm" "start" on production
+CMD "npm" "run" "dev"
