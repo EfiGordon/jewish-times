@@ -26,15 +26,15 @@ export default function City({ tableData, countryName, flagPath, cityName, count
             <MyCity countryCode={countryCode} tableData={tableData} countryName={countryName} flagPath={flagPath} cityName={cityName} date={[new Date().getFullYear(), new Date().getMonth(), new Date().getDate()].join('-')} />
 
             {jsonLdScript.map((event) => {
+                if (!event) return;
                 return (
                     <script
-                        key={`eventJSON-${event.title + event.date}`}
+                        key={`eventJSON-${event.name}-${event.startDate}`}
                         type='application/ld+json'
                         dangerouslySetInnerHTML={{ __html: JSON.stringify(event) }}
                     />
                 )
             })}
-
         </HomeLayout >
     )
 }
@@ -68,19 +68,28 @@ export async function getStaticProps({ params }) {
     date = splitedParams.slice(splitedParams.length - 3).join('-');
     date = format(new Date(date), 'do MMM R');
     flagPath = getFlagPathByCountryCode(countryCode);
-    tableData = addFetchedDataToTable(res.data.res[0]);
-    let jsonLdScript = generateJsonLdScript(res.data.res[0]);
+
+    const events = res.data.res[0].items.filter((item) => {
+        return item.category !== 'parashat'
+    });
+    console.log({
+        events: events
+    })
+    tableData = addFetchedDataToTable(events);
+    let jsonLdScript = generateJsonLdScript(events, res.data.res[0].location);
+
+    const props = {
+        countryName,
+        cityName,
+        countryCode,
+        flagPath,
+        tableData,
+        date,
+        jsonLdScript
+    };
 
     return {
-        props: {
-            countryName,
-            cityName,
-            countryCode,
-            flagPath,
-            tableData,
-            date,
-            jsonLdScript
-        }
+        props
     }
 
 }
