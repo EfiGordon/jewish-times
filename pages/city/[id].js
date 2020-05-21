@@ -1,6 +1,8 @@
 const { format } = require('date-fns');
 const axios = require('axios');
 
+import { NextSeo } from 'next-seo';
+
 import { getCitiesPath } from '../../lib/data/cities';
 import { getFlagPathByCountryCode, generateJsonLdScript } from '../../lib/utils';
 import { addFetchedDataToTable } from '../../lib/addFetchedDataToTable';
@@ -20,7 +22,9 @@ export default function City({ tableData, countryName, flagPath, cityName, count
             <Head>
                 <title>{`${cityName} Jewish Times ${date}`}</title>
             </Head>
+            <NextSeo />
             <MyCity countryCode={countryCode} tableData={tableData} countryName={countryName} flagPath={flagPath} cityName={cityName} date={[new Date().getFullYear(), new Date().getMonth(), new Date().getDate()].join('-')} />
+
             {jsonLdScript.map((event) => {
                 return (
                     <script
@@ -30,6 +34,7 @@ export default function City({ tableData, countryName, flagPath, cityName, count
                     />
                 )
             })}
+
         </HomeLayout >
     )
 }
@@ -65,9 +70,6 @@ export async function getStaticProps({ params }) {
     flagPath = getFlagPathByCountryCode(countryCode);
     tableData = addFetchedDataToTable(res.data.res[0]);
     let jsonLdScript = generateJsonLdScript(res.data.res[0]);
-    console.log({
-        jsonLdScript: jsonLdScript
-    })
 
     return {
         props: {

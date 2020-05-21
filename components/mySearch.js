@@ -57,7 +57,6 @@ export class CitySearchSelect extends React.Component {
             <Select
                 showSearch
                 value={this.state.value}
-                placeholder={this.props.placeholder}
                 style={this.props.style}
                 defaultActiveFirstOption={false}
                 showArrow={false}
@@ -66,6 +65,7 @@ export class CitySearchSelect extends React.Component {
                 onChange={this.handleChange}
                 notFoundContent={null}
                 placeholder={"e.g New York"}
+                aria-label={"check this out"}
             >
                 {options}
             </Select>
