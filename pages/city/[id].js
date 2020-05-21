@@ -1,13 +1,15 @@
+const { format } = require('date-fns');
+const axios = require('axios');
 
 import { getCitiesPath } from '../../lib/data/cities';
-import HomeLayout from '../../components/layout'
-import styles from './[id].module.css';
-import MyCity from '../../components/myCity';
-import { addFetchedDataToTable } from '../../lib/addFetchedDataToTable';
 import { getFlagPathByCountryCode, generateJsonLdScript } from '../../lib/utils';
+import { addFetchedDataToTable } from '../../lib/addFetchedDataToTable';
+
 import Head from 'next/head'
-const axios = require('axios');
-const { format } = require('date-fns');
+import styles from './[id].module.css';
+
+import HomeLayout from '../../components/layout'
+import MyCity from '../../components/myCity';
 
 export default function City({ tableData, countryName, flagPath, cityName, countryCode, error, date, jsonLdScript }) {
     if (error) {
