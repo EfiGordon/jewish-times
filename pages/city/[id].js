@@ -4,12 +4,12 @@ import HomeLayout from '../../components/layout'
 import styles from './[id].module.css';
 import MyCity from '../../components/myCity';
 import { addFetchedDataToTable } from '../../lib/addFetchedDataToTable';
-import { getFlagPathByCountryCode } from '../../lib/utils';
+import { getFlagPathByCountryCode, generateJsonLdScript } from '../../lib/utils';
 import Head from 'next/head'
 const axios = require('axios');
 const { format } = require('date-fns');
 
-export default function City({ tableData, countryName, flagPath, cityName, countryCode, error, date }) {
+export default function City({ tableData, countryName, flagPath, cityName, countryCode, error, date, jsonLdScript }) {
     if (error) {
         return (<p>SOME ERROR...</p>)
     }
@@ -19,6 +19,15 @@ export default function City({ tableData, countryName, flagPath, cityName, count
                 <title>{`${cityName} Jewish Times ${date}`}</title>
             </Head>
             <MyCity countryCode={countryCode} tableData={tableData} countryName={countryName} flagPath={flagPath} cityName={cityName} date={[new Date().getFullYear(), new Date().getMonth(), new Date().getDate()].join('-')} />
+            {jsonLdScript.map((event) => {
+                return (
+                    <script
+                        key={`eventJSON-${event.title + event.date}`}
+                        type='application/ld+json'
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(event) }}
+                    />
+                )
+            })}
         </HomeLayout >
     )
 }
@@ -53,7 +62,10 @@ export async function getStaticProps({ params }) {
     date = format(new Date(date), 'do MMM R');
     flagPath = getFlagPathByCountryCode(countryCode);
     tableData = addFetchedDataToTable(res.data.res[0]);
-
+    let jsonLdScript = generateJsonLdScript(res.data.res[0]);
+    console.log({
+        jsonLdScript: jsonLdScript
+    })
 
     return {
         props: {
@@ -62,7 +74,8 @@ export async function getStaticProps({ params }) {
             countryCode,
             flagPath,
             tableData,
-            date
+            date,
+            jsonLdScript
         }
     }
 
