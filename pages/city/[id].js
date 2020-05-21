@@ -72,9 +72,7 @@ export async function getStaticProps({ params }) {
     const events = res.data.res[0].items.filter((item) => {
         return item.category !== 'parashat'
     });
-    console.log({
-        events: events
-    })
+
     tableData = addFetchedDataToTable(events);
     let jsonLdScript = generateJsonLdScript(events, res.data.res[0].location);
 
