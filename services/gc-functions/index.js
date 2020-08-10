@@ -3,6 +3,7 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 let client = new MongoClient();
 
+
 /**
  * HTTP Cloud Function.
  * This function is exported by index.js, and is executed when
@@ -13,18 +14,16 @@ let client = new MongoClient();
  * @param {Object} res Cloud Function response context.
  *                     More info: https://expressjs.com/en/api.html#res
  */
-exports.helloGET = (req, res) => {
-    res.send('Hello World!');
-};
-
-
 exports.getFromDB = async (req, res) => {
     await connectToClientIfDropped()
         .catch(error => {
             res.status(500).end(error.message);
 
         })
-    const docs = await client.db('production').collection('cities').findOne();
+    const customTitle = req.query.customTitle;
+    const docs = await client.db('production').collection('cities').findOne({
+        customTitle: customTitle
+    });
     res.send(JSON.stringify(docs));
 }
 
