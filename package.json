@@ -10,6 +10,7 @@
   "dependencies": {
     "antd": "^4.2.0",
     "axios": "^0.19.2",
+    "cross-env": "^7.0.2",
     "date-fns": "^2.13.0",
     "mongodb": "^3.5.7",
     "next": "9.4.0",

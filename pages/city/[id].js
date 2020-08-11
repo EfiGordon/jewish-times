@@ -4,7 +4,7 @@ const axios = require('axios');
 import { NextSeo } from 'next-seo';
 
 import { getCitiesPath } from '../../lib/data/cities';
-import { getFlagPathByCountryCode, generateJsonLdScript } from '../../lib/utils';
+import { getFlagPathByCountryCode, generateJsonLdScript, extractPageTitleToObject } from '../../lib/utils';
 import { addFetchedDataToTable } from '../../lib/addFetchedDataToTable';
 
 import Head from 'next/head'
@@ -14,8 +14,14 @@ import HomeLayout from '../../components/layout'
 import MyCity from '../../components/myCity';
 
 export default function City({ tableData, countryName, flagPath, cityName, countryCode, error, date, jsonLdScript }) {
-    if (error) {
-        return (<p>SOME ERROR...</p>)
+    console.log({ tableData, countryName, flagPath, cityName, countryCode, error, date, jsonLdScript });
+    if (!tableData || !jsonLdScript) {
+        return (
+            <HomeLayout className={styles.Card} home={false} siteTitle={countryName}>
+                <NextSeo />
+                <p>Loading Data...</p>
+            </HomeLayout >
+        )
     }
     return (
         <HomeLayout className={styles.Card} home={false} siteTitle={countryName}>
@@ -43,7 +49,7 @@ export async function getStaticPaths() {
     const paths = getCitiesPath();
     return {
         paths,
-        fallback: false
+        fallback: true
     }
 }
 
@@ -51,31 +57,29 @@ export async function getStaticProps({ params }) {
     let tableData, countryName, flagPath, cityName, countryCode, date;
     const splitedParams = params.id.split('-');
 
-    const res = await axios.get(encodeURI(process.env.FETCH_CITIES_API + '?customTitle=' + params.id));
+    const title = extractPageTitleToObject(params.id);
 
-    if (res.data.res.length === 0 || res.data.error || res.data.res.error) {
-        return {
-            props: {
-                error: 'yes'
-            }
-        }
-        throw new Error('some fetching error');
-    }
+    const res = await axios.get(encodeURI(`https://www.hebcal.com/shabbat/?cfg=json&geo=city&city=${title.city}&gy=${title.gy}&gm=${title.gm}&gd=${title.gd}`));
 
-    countryName = res.data.res[0].location.country;
-    cityName = res.data.res[0].location.city;
-    countryCode = splitedParams[0];
+    console.log({
+        resStatus: res.status
+    })
+
+    countryName = res.data.location.country;
+    cityName = res.data.location.city;
+    countryCode = title.city.split('-')[0];
     date = splitedParams.slice(splitedParams.length - 3).join('-');
     date = format(new Date(date), 'do MMM R');
     flagPath = getFlagPathByCountryCode(countryCode);
 
-    const events = res.data.res[0].items.filter((item) => {
+    const events = res.data.items.filter((item) => {
         return item.category !== 'parashat'
     });
 
     tableData = addFetchedDataToTable(events);
-    let jsonLdScript = generateJsonLdScript(events, res.data.res[0].location);
 
+    let jsonLdScript = generateJsonLdScript(events, res.data.location);
+    const error = true;
     const props = {
         countryName,
         cityName,
@@ -83,8 +87,12 @@ export async function getStaticProps({ params }) {
         flagPath,
         tableData,
         date,
-        jsonLdScript
+        jsonLdScript,
+        error
     };
+    console.log({
+        props: props
+    })
 
     return {
         props
