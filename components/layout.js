@@ -34,7 +34,7 @@ export default function HomeLayout({ children, home, siteTitle }) {
                 />
                 <meta name="og:title" content={siteTitle} />
                 <meta name="twitter:card" content="summary_large_image" />
-                <script dangerouslySetInnerHTML={{ __html: adSenseScript }} />
+                {adSenseScript}
 
             </Head>
             <header className={styles.header}>
