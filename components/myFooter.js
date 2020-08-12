@@ -2,9 +2,9 @@ import React from 'react';
 
 const myFooter = () => {
     return (
-        <p>
-            Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
-        </p>
+        <div>
+            <p>Website made by <a href="https://www.efigordon.com/">Efi Gordon</a>. The data is taken from <a href="https://www.hebcal.com/">Hebcal API.</a></p>
+        </div>
     )
 }
 

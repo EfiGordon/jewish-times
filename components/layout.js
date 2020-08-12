@@ -5,14 +5,14 @@ import { useRouter } from 'next/router'
 import utilStyles from '../styles/utils.module.css'
 import styles from './layout.module.css'
 
-import { Input, Typography } from 'antd';
+import { Typography } from 'antd';
 const { Title } = Typography;
 
 
 import { CitySearchSelect } from './mySearch';
 import MyFooter from './myFooter';
 
-export const siteTitle = 'Zmanim - Jewish Holiday And Shabbat Times'
+export const siteTitle = 'Jewish Holiday And Shabbat Times'
 
 export default function HomeLayout({ children, home, siteTitle }) {
     const router = useRouter()
@@ -43,8 +43,8 @@ export default function HomeLayout({ children, home, siteTitle }) {
                             className={`${styles.logoImage} ${utilStyles.borderCircle}`}
                             alt={'Logo'}
                         />
-            Zmanim
-          </Title>
+                        Jewish Times
+                    </Title>
                 </div>
 
                 {
@@ -55,16 +55,18 @@ export default function HomeLayout({ children, home, siteTitle }) {
                     </span>}
             </header>
             <main>{children}</main>
-            {!home && (
-                <div className={styles.backToHome}>
-                    <Link href="/">
-                        <a>← Back to home</a>
-                    </Link>
-                </div>
-            )}
+            {
+                !home && (
+                    <div className={styles.backToHome}>
+                        <Link href="/">
+                            <a>← Back to home</a>
+                        </Link>
+                    </div>
+                )
+            }
             <footer>
                 <MyFooter />
             </footer>
-        </div>
+        </div >
     )
 }

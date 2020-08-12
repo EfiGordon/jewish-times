@@ -13,3 +13,7 @@ just type `docker-compose up -d` and go to `localhost:3000`
 OLD WAY: (OBSOLOTE)
     docker build -t zmanimOrAnyOtherTagNameYouWouldLike .
     docker run -dp 3222:3000 zmanimOrAnyOtherTagNameYouWouldLike
+
+
+Credits:
+    For the Background I used: https://www.heropatterns.com/

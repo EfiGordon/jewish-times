@@ -44,7 +44,7 @@ const MyCity = (props) => {
                     }
                 }}
                 title={props.countryName + " Jewish times"}
-                subTitle={"Please select your nearest city"}
+                subTitle={""}
                 avatar={{
                     src: props.flagPath,
                     alt: `${props.countryName} Flag`,

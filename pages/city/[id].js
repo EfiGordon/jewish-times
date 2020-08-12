@@ -13,8 +13,7 @@ import styles from './[id].module.css';
 import HomeLayout from '../../components/layout'
 import MyCity from '../../components/myCity';
 
-export default function City({ tableData, countryName, flagPath, cityName, countryCode, error, date, jsonLdScript }) {
-    console.log({ tableData, countryName, flagPath, cityName, countryCode, error, date, jsonLdScript });
+export default function City({ tableData, countryName, flagPath, cityName, countryCode, date, jsonLdScript }) {
     if (!tableData || !jsonLdScript) {
         return (
             <HomeLayout className={styles.Card} home={false} siteTitle={countryName}>
@@ -61,9 +60,6 @@ export async function getStaticProps({ params }) {
 
     const res = await axios.get(encodeURI(`https://www.hebcal.com/shabbat/?cfg=json&geo=city&city=${title.city}&gy=${title.gy}&gm=${title.gm}&gd=${title.gd}`));
 
-    console.log({
-        resStatus: res.status
-    })
 
     countryName = res.data.location.country;
     cityName = res.data.location.city;
@@ -72,10 +68,10 @@ export async function getStaticProps({ params }) {
     date = format(new Date(date), 'do MMM R');
     flagPath = getFlagPathByCountryCode(countryCode);
 
-    const events = res.data.items.filter((item) => {
-        return item.category !== 'parashat'
-    });
-
+    // const events = res.data.items.filter((item) => {
+    //     return item.category !== 'parashat'
+    // });
+    const events = res.data.items;
     tableData = addFetchedDataToTable(events);
 
     let jsonLdScript = generateJsonLdScript(events, res.data.location);
@@ -90,9 +86,6 @@ export async function getStaticProps({ params }) {
         jsonLdScript,
         error
     };
-    console.log({
-        props: props
-    })
 
     return {
         props
