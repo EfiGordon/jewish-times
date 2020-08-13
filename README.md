@@ -11,10 +11,10 @@ How to use?
 just type `docker-compose up -d` and go to `localhost:3000`
 
 (Old Way):  
-    `docker build -t zmanimOrAnyOtherTagNameYouWouldLike .`
+    `docker build -t zmanimOrAnyOtherTagNameYouWouldLike .`  
     `docker run -dp 3222:3000 zmanimOrAnyOtherTagNameYouWouldLike`
 
 
-Credits:
+Credits:  
     For the Background I used: https://www.heropatterns.com/  
     Data API: hebcal.com
