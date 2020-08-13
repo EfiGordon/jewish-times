@@ -10,8 +10,8 @@ TODO:
 How to use?
 just type `docker-compose up -d` and go to `localhost:3000`
 
-OLD WAY: (OBSOLOTE)
-    `docker build -t zmanimOrAnyOtherTagNameYouWouldLike .
+(Old Way): 
+    `docker build -t zmanimOrAnyOtherTagNameYouWouldLike .  
     docker run -dp 3222:3000 zmanimOrAnyOtherTagNameYouWouldLike`
 
 
