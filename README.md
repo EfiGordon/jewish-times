@@ -16,5 +16,5 @@ just type `docker-compose up -d` and go to `localhost:3000`
 
 
 Credits:
-    For the Background I used: https://www.heropatterns.com/
+    For the Background I used: https://www.heropatterns.com/  
     Data API: hebcal.com
