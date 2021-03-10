@@ -28,9 +28,7 @@ export default function HomeLayout({ children, home, siteTitle }) {
                 />
                 <meta
                     property="og:image"
-                    content={`https://og-image.now.sh/${encodeURI(
-                        siteTitle
-                    )}.png?theme=dark&md=0&fontSize=100px&images=/favicon.ico`}
+                    content={`https://jewishtimes.at/favicon.ico`}
                 />
                 <meta name="og:title" content={siteTitle} />
                 <meta name="twitter:card" content="summary_large_image" />
