@@ -9,10 +9,6 @@ const MyCity = (props) => {
     const [date, setDate] = useState('');
     const router = useRouter()
 
-    console.log({
-        props: props
-    })
-
     const handleClick = (e, href) => {
         e.preventDefault()
         router.push(href)
