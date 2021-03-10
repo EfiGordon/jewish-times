@@ -40,13 +40,9 @@ export default function HomeLayout({ children, home, siteTitle }) {
                 <div className={styles.title}>
 
                     <Title style={{ flexDirection: 'row' }}>
-                        <img
-                            src={logoPath}
-                            className={`${styles.logoImage} ${utilStyles.borderCircle}`}
-                            alt={'Logo'}
-                        />
-                        Jewish Times
+                        <Link href="/">Jewish Times</Link>
                     </Title>
+
                 </div>
 
                 {
