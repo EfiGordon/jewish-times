@@ -9,6 +9,10 @@ const MyCity = (props) => {
     const [date, setDate] = useState('');
     const router = useRouter()
 
+    console.log({
+        props: props
+    })
+
     const handleClick = (e, href) => {
         e.preventDefault()
         router.push(href)
@@ -43,7 +47,7 @@ const MyCity = (props) => {
                         router.push('/');
                     }
                 }}
-                title={props.countryName + " Jewish times"}
+                title={`${props.cityName}, ${props.countryName}`}
                 subTitle={""}
                 avatar={{
                     src: props.flagPath,

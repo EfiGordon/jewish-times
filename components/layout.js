@@ -17,6 +17,9 @@ export const siteTitle = 'Jewish Holiday And Shabbat Times'
 export default function HomeLayout({ children, home, siteTitle }) {
     const router = useRouter()
     const logoPath = `/images/logo.svg`;
+
+
+
     //const adSenseScript = '<script data-ad-client="ca-pub-9268139755114912" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
     return (
         <div className={styles.container}>
